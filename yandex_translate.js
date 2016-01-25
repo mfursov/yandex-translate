@@ -1,20 +1,31 @@
 chrome.contextMenus.create({
-    "title": "Translate with Yandex",
-    "contexts": ["selection"],
-    "id": "yandexTranslate"
+    title: "Translate with Yandex",
+    contexts: ["page", "selection", "link"],
+    onclick: yandexTranslate
 });
-chrome.contextMenus.onClicked.addListener(yandexTranslate);
 
-function yandexTranslate(info) {
-    /* build the query string */
-    var queryString = "https://translate.yandex.com/?text=" + info.selectionText;
-    /* get the index of the current tab and open the Google Translate tab right next to it */
+function openTab(textToTranslate) {
     chrome.tabs.getSelected(null, function (tab) {
         chrome.tabs.create({
             "index": tab.index + 1,
-            "url": queryString,
+            "url": "https://translate.yandex.com/?text=" + textToTranslate,
             "selected": true
         });
     });
+}
+function yandexTranslate(info) {
+    if (info.selectionText && info.selectionText.length > 0) {
+        openTab(info.selectionText);
+        return;
+    }
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, "getLastClickedText", function (text) {
+            if (text && text.length > 0) {
+                openTab(text);
+            }
+        });
+    });
+
+
 }
 
