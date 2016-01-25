@@ -19,5 +19,5 @@
   "name": "Yandex Translate",
   "permissions": ["contextMenus", "tabs"],
   "update_url": "https://clients2.google.com/service/update2/crx",
-  "version": "1.1"
+  "version": "1.1.1"
 }
