@@ -1,17 +1,16 @@
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     function getClickedWord() {
-        var s = window.getSelection();
-
         // real selection has highest priority
+        var s = window.getSelection();
         var sText = s.toString().trim();
         if (sText.length > 0) {
             return sText;
         }
 
         // active elements with text are next in priority. Example: links
-        var aText = document.activeElement != null ? document.activeElement.text.trim() : "";
-        if (aText.length > 0) {
-            return aText;
+        var aText = document.activeElement != null ? document.activeElement.text : "";
+        if (aText && aText.trim().length > 0) {
+            return aText.trim();
         }
 
         // lowest in priority: try to find out if we have a word clicked
