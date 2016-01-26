@@ -1,3 +1,6 @@
+## v1.1.2 - 2016-01-25
+ - Minor bug-fixes related to active element selection.
+
 ## v1.1.1 - 2016-01-25
  - Fine tuning priorities for selection source
  
